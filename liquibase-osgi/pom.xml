@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <liquibase.version>3.0.1-SNAPSHOT</liquibase.version>
+        <liquibase.version>4.8.0</liquibase.version>
     </properties>
 
     <dependencies>
