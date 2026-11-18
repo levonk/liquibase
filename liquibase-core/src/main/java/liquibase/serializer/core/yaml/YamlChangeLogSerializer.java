@@ -19,7 +19,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
-import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,7 +37,7 @@ public class YamlChangeLogSerializer implements ChangeLogSerializer {
     protected Yaml createYaml() {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        return new Yaml(new LiquibaseRepresenter(), dumperOptions);
+        return new Yaml(new LiquibaseRepresenter(dumperOptions), dumperOptions);
     }
 
     public String[] getValidFileExtensions() {
@@ -102,7 +101,8 @@ public class YamlChangeLogSerializer implements ChangeLogSerializer {
 
     public static class LiquibaseRepresenter extends Representer {
 
-        public LiquibaseRepresenter() {
+        public LiquibaseRepresenter(DumperOptions options) {
+            super(options);
             multiRepresenters.put(DatabaseFunction.class, new AsStringRepresenter());
             multiRepresenters.put(SequenceNextValueFunction.class, new AsStringRepresenter());
             multiRepresenters.put(SequenceCurrentValueFunction.class, new AsStringRepresenter());
@@ -130,7 +130,7 @@ public class YamlChangeLogSerializer implements ChangeLogSerializer {
 
 
         @Override
-        protected Set<Property> getProperties(Class<? extends Object> type) throws IntrospectionException {
+        protected Set<Property> getProperties(Class<? extends Object> type) {
             Set<Property> returnSet = new HashSet<Property>();
             LiquibaseSerializable serialzableType = null;
             try {
