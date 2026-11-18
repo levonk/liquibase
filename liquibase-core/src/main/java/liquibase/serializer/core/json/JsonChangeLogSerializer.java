@@ -17,7 +17,7 @@ public class JsonChangeLogSerializer extends YamlChangeLogSerializer {
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
         dumperOptions.setDefaultScalarStyle(DumperOptions.ScalarStyle.DOUBLE_QUOTED);
 
-        return new Yaml(new LiquibaseRepresenter(), dumperOptions);
+        return new Yaml(new LiquibaseRepresenter(dumperOptions), dumperOptions);
     }
 
     @Override
